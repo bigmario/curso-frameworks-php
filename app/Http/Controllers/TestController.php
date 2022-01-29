@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-class HomeController{
+class TestController{
     public function Index() {
-        return view('home');
+        return view('test');
     }
 }

@@ -16,9 +16,14 @@ class Response{
 
     public function send(){
         $view = $this->getView();
-        $content = file_get_contents(__DIR__."/../../views/$view.php");
 
-        require __DIR__."/../../views/layout.php";
+        try {
+            $content = file_get_contents(viewPath($view));
+        } catch (\Exception $exception) {
+            error_log($exception->getMessage());
+        }
+
+        require viewPath('layout');
     }
 
 }

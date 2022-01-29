@@ -46,11 +46,28 @@ class Request
         $controller = $this->getController();
         $method = $this->getMethod();
 
-        $response = call_user_func([
-            new $controller,
-            $method
-        ]);
+        try {
+            if (class_exists($controller)) {
+                $controller = new $controller;
+            }else{
+                throw new \Exception("Error Processing Request", 1);
+            }
 
-        $response->send();
+            $response = call_user_func([
+                new $controller,
+                $method
+            ]);
+
+        
+            if ($response instanceof Response){
+                $response->send();
+            } else{
+                throw new \Exception("Error Processing Request", 1);
+                
+            }
+        } catch (\Exception $e) {
+            echo "Details {$e->getMessage()}";
+        }
+        
     }
 }
